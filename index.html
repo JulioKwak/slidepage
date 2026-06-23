@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>정보통신설비 유지보수(네트워크설비) 발표자료</title>
+  <style>
+    :root{
+      --bg:#07131f;
+      --panel:#0f2234;
+      --panel2:#122b42;
+      --text:#eef6ff;
+      --muted:#a9bdd0;
+      --line:rgba(255,255,255,.14);
+      --accent:#35c2ff;
+      --accent2:#54e1a7;
+      --warn:#ffd166;
+      --bad:#ff6b6b;
+      --card:rgba(255,255,255,.08);
+      --card2:rgba(255,255,255,.12);
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",sans-serif;overflow:hidden}
+    body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 12% 16%, rgba(53,194,255,.24), transparent 32%),radial-gradient(circle at 90% 18%, rgba(84,225,167,.18), transparent 28%),linear-gradient(135deg,#06101b,#0a1d2d 48%,#081622);z-index:-2}
+    body:after{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);background-size:44px 44px;opacity:.35;z-index:-1}
+    #deck{width:100vw;height:100vh;position:relative}
+    .slide{position:absolute;inset:0;padding:82px 88px 86px;opacity:0;transform:translateX(36px) scale(.985);transition:opacity .28s ease,transform .28s ease;pointer-events:none;display:grid;grid-template-rows:auto 1fr;gap:28px;overflow:hidden}
+    .slide.active{opacity:1;transform:translateX(0) scale(1);pointer-events:auto}
+    .slide h1,.slide h2{margin:0;letter-spacing:-.045em;line-height:1.08}
+    .slide h1{font-size:64px;font-weight:850}
+    .slide h2{font-size:46px;font-weight:820}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:18px;color:var(--accent2);font-weight:750;margin-bottom:16px;letter-spacing:-.01em}
+    .eyebrow:before{content:"";display:inline-block;width:12px;height:12px;border-radius:99px;background:var(--accent2);box-shadow:0 0 20px rgba(84,225,167,.8)}
+    .subtitle{font-size:24px;color:var(--muted);line-height:1.55;margin-top:22px;max-width:920px}
+    .content{min-height:0;display:grid;align-items:center;gap:28px}
+    .two{grid-template-columns:1.05fr .95fr}
+    .two-even{grid-template-columns:1fr 1fr}
+    .three{grid-template-columns:repeat(3,1fr)}
+    .wide{grid-template-columns:1.3fr .7fr}
+    .card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:28px;padding:28px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+    .card.flat{box-shadow:none;background:rgba(255,255,255,.06)}
+    .photo{width:100%;height:100%;min-height:360px;object-fit:cover;border-radius:30px;border:1px solid var(--line);box-shadow:var(--shadow)}
+    .photo.small{min-height:260px}
+    .caption{font-size:15px;color:var(--muted);margin-top:10px;text-align:right}
+    .big-number{font-size:120px;font-weight:900;line-height:.85;color:rgba(53,194,255,.22);position:absolute;right:70px;top:62px;z-index:-1}
+    ul{margin:0;padding-left:1.2em;font-size:24px;line-height:1.65;color:#e8f2fb}
+    li::marker{color:var(--accent)}
+    .small-list{font-size:20px;line-height:1.55}
+    .key{font-size:28px;font-weight:800;color:#fff;margin:0 0 14px}
+    .desc{font-size:21px;line-height:1.55;color:var(--muted);margin:0}
+    .tag{display:inline-flex;border:1px solid rgba(53,194,255,.36);background:rgba(53,194,255,.12);color:#c9f0ff;border-radius:999px;padding:8px 14px;font-weight:720;font-size:16px;margin:4px 6px 4px 0}
+    .tag.green{border-color:rgba(84,225,167,.36);background:rgba(84,225,167,.12);color:#d0ffe9}
+    .tag.yellow{border-color:rgba(255,209,102,.38);background:rgba(255,209,102,.12);color:#fff1c2}
+    table{width:100%;border-collapse:collapse;font-size:18px;line-height:1.35;background:rgba(255,255,255,.04);border-radius:20px;overflow:hidden;border:1px solid var(--line)}
+    th,td{padding:14px 16px;text-align:left;border-bottom:1px solid rgba(255,255,255,.10);vertical-align:top}
+    th{background:rgba(53,194,255,.14);font-weight:800;color:#ecfbff}
+    tr:last-child td{border-bottom:none}
+    .table-compact{font-size:16px}
+    .callout{border-left:6px solid var(--accent2);padding:20px 24px;background:rgba(84,225,167,.10);border-radius:18px;font-size:24px;line-height:1.45;color:#eafff6}
+    .warn{border-left-color:var(--warn);background:rgba(255,209,102,.12);color:#fff5d6}
+    .bad{border-left-color:var(--bad);background:rgba(255,107,107,.12);color:#ffe1e1}
+    .code{font-family:"Cascadia Mono","Consolas","D2Coding",monospace;background:#07111c;color:#d8efff;border:1px solid rgba(53,194,255,.24);border-radius:20px;padding:22px 24px;font-size:24px;line-height:1.5;box-shadow:inset 0 0 0 1px rgba(255,255,255,.03);white-space:pre-wrap;word-break:break-word}
+    .terminal{background:#02080f;border-radius:24px;border:1px solid rgba(255,255,255,.14);overflow:hidden;box-shadow:var(--shadow)}
+    .terminal .bar{height:42px;background:#0c1a28;display:flex;align-items:center;gap:8px;padding:0 16px}
+    .dot{width:12px;height:12px;border-radius:99px;background:#ff6464}.dot:nth-child(2){background:#ffd166}.dot:nth-child(3){background:#54e1a7}
+    .terminal pre{margin:0;padding:24px;font-size:22px;line-height:1.55;color:#d8efff;font-family:"Cascadia Mono","Consolas","D2Coding",monospace;white-space:pre-wrap}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .compare .card{min-height:340px}
+    .pill-title{font-size:30px;font-weight:850;margin:0 0 16px;display:flex;align-items:center;gap:12px}
+    .icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;color:#06111c;font-weight:900;font-size:24px}
+    .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:stretch}
+    .step{position:relative;padding:24px;background:rgba(255,255,255,.075);border:1px solid var(--line);border-radius:24px;min-height:160px}
+    .step .num{font-size:18px;color:var(--accent2);font-weight:850;margin-bottom:14px}
+    .step b{font-size:24px;display:block;margin-bottom:10px}
+    .step span{font-size:18px;color:var(--muted);line-height:1.45}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .metric{border:1px solid var(--line);background:rgba(255,255,255,.07);border-radius:24px;padding:24px;min-height:150px}
+    .metric b{font-size:32px;color:#fff;display:block;margin-bottom:10px}
+    .metric span{font-size:18px;color:var(--muted);line-height:1.45}
+    .nav{position:fixed;left:0;right:0;top:0;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:rgba(5,14,23,.72);border-bottom:1px solid rgba(255,255,255,.08);backdrop-filter:blur(14px);z-index:20}
+    .nav .brand{display:flex;align-items:center;gap:12px;font-size:16px;color:#d9eefc;font-weight:800;letter-spacing:-.02em}
+    .brand-mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 0 24px rgba(53,194,255,.35)}
+    .nav select{background:#0b1d2d;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:8px 36px 8px 12px;font-size:15px;max-width:560px}
+    .controls{position:fixed;right:24px;bottom:22px;display:flex;align-items:center;gap:10px;z-index:20}
+    button{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.1);color:var(--text);border-radius:16px;padding:12px 18px;font-size:16px;font-weight:800;cursor:pointer;backdrop-filter:blur(10px)}
+    button:hover{background:rgba(53,194,255,.2);border-color:rgba(53,194,255,.45)}
+    .counter{font-size:15px;color:var(--muted);padding:0 10px}
+    .progress{position:fixed;left:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;z-index:30;transition:width .22s ease}
+    .dots{position:fixed;left:24px;bottom:24px;display:flex;gap:7px;z-index:20;max-width:50vw;flex-wrap:wrap}
+    .dots button{width:12px;height:12px;padding:0;border-radius:999px;background:rgba(255,255,255,.25);border:none}
+    .dots button.active{background:var(--accent2);box-shadow:0 0 16px rgba(84,225,167,.7)}
+    .split-title{display:flex;align-items:end;justify-content:space-between;gap:24px}
+    .slide-no{color:rgba(255,255,255,.28);font-size:22px;font-weight:900}
+    .hero{grid-template-columns:.95fr 1.05fr;gap:42px}
+    .hero-copy{align-self:center}
+    .hero .photo{min-height:520px}
+    .footer-note{position:absolute;left:88px;bottom:34px;color:rgba(255,255,255,.46);font-size:14px}
+    @media (max-width:1100px){.slide{padding:78px 34px 92px}.two,.two-even,.wide,.hero{grid-template-columns:1fr}.slide h1{font-size:46px}.slide h2{font-size:36px}.photo{min-height:230px}.flow,.metrics,.three{grid-template-columns:1fr 1fr}ul{font-size:19px}.subtitle{font-size:20px}.nav select{max-width:300px}.footer-note{left:34px}.code{font-size:18px}}
+    @media print{html,body{overflow:visible;background:white;color:black}.nav,.controls,.dots,.progress{display:none}.slide{position:relative;opacity:1;transform:none;page-break-after:always;height:100vh;color:white}.slide.active{opacity:1}}
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <div class="brand"><span class="brand-mark"></span>정보통신설비 유지보수 · 네트워크설비</div>
+    <select id="slidePicker" aria-label="슬라이드 선택"></select>
+  </div>
+  <main id="deck">
+    <section class="slide active" data-title="표지">
+      <div class="content hero">
+        <div class="hero-copy">
+          <div class="eyebrow">현장 점검 설명자료</div>
+          <h1>정보통신설비 유지보수<br/>네트워크설비 점검</h1>
+          <p class="subtitle">L2 스위치의 관리형·비관리형 구분, 포트 링크 상태 확인, 케이블 규격 판단, 노트북 PowerShell 점검 방법을 중심으로 정리했습니다.</p>
+          <div style="margin-top:28px"><span class="tag">L2 Switch</span><span class="tag green">LinkSpeed</span><span class="tag yellow">Cable Category</span></div>
+        </div>
+        <img class="photo" src="assets/images/rack_switches.png" alt="네트워크 랙과 스위치" />
+      </div>
+      <div class="footer-note">※ 이미지는 설명용 참고 이미지입니다.</div>
+    </section>
+
+    <section class="slide" data-title="점검의 핵심">
+      <div class="split-title"><div><div class="eyebrow">점검 관점</div><h2>속도 측정이 아니라 링크 동작 상태 확인</h2></div><div class="slide-no">01</div></div>
+      <div class="content two">
+        <div class="card">
+          <p class="key">네트워크설비 점검의 핵심</p>
+          <ul>
+            <li>인터넷 속도측정 사이트 결과만으로 스위치 상태를 판단하지 않습니다.</li>
+            <li>스위치 포트의 <b>Link / Speed / Duplex / Error</b> 상태 확인이 우선입니다.</li>
+            <li>관리형 여부에 따라 점검 방식과 확인 가능한 범위가 달라집니다.</li>
+          </ul>
+        </div>
+        <div class="card flat">
+          <div class="callout">현장 표현으로는 “속도 측정”보다 <b>링크 동작 속도 확인</b>에 가깝습니다.</div>
+          <div class="metrics" style="margin-top:20px;grid-template-columns:repeat(2,1fr)">
+            <div class="metric"><b>Speed</b><span>100Mbps / 1Gbps / 10Gbps 등 링크 협상 속도</span></div>
+            <div class="metric"><b>Duplex</b><span>Full Duplex 여부 확인</span></div>
+            <div class="metric"><b>Error</b><span>CRC, FCS, Input/Output Error</span></div>
+            <div class="metric"><b>Traffic</b><span>주요 포트 송수신 상태</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="스위치의 종류">
+      <div class="split-title"><div><div class="eyebrow">장비 구분</div><h2>스위치는 관리 가능 여부로 나눕니다</h2></div><div class="slide-no">02</div></div>
+      <div class="content compare">
+        <div class="card">
+          <div class="pill-title"><span class="icon">M</span>관리형 L2 스위치</div>
+          <p class="desc">관리자가 장비에 접속하여 포트 상태, 링크 속도, VLAN, 트래픽, 에러 카운터 등을 확인하거나 설정할 수 있는 스위치입니다.</p>
+          <div style="margin-top:22px"><span class="tag">관리 IP</span><span class="tag">Web</span><span class="tag">SSH</span><span class="tag">Console</span><span class="tag">SNMP</span></div>
+        </div>
+        <div class="card">
+          <div class="pill-title"><span class="icon">U</span>비관리형 L2 스위치</div>
+          <p class="desc">별도 관리 접속 기능 없이 전원과 LAN 케이블을 연결하면 자동 동작하는 스위치입니다. 내부 포트 상태를 직접 조회하기 어렵습니다.</p>
+          <div style="margin-top:22px"><span class="tag yellow">LED 확인</span><span class="tag yellow">외관 확인</span><span class="tag yellow">노트북 연결</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="관리형 접속 방식">
+      <div class="split-title"><div><div class="eyebrow">관리형 스위치</div><h2>접속 방식별 필요한 정보</h2></div><div class="slide-no">03</div></div>
+      <div class="content two">
+        <table>
+          <thead><tr><th>접속 방식</th><th>필요 정보</th><th>특징</th></tr></thead>
+          <tbody>
+            <tr><td>Web</td><td>관리 IP, 계정정보, 접속 가능한 망</td><td>브라우저로 상태 확인</td></tr>
+            <tr><td>SSH</td><td>관리 IP, 계정정보, 라우팅 경로</td><td>CLI 점검, Telnet보다 권장</td></tr>
+            <tr><td>Console</td><td>콘솔케이블, PuTTY, 계정정보</td><td>IP 없이 직접 접속</td></tr>
+            <tr><td>SNMP</td><td>관리 IP, Community/계정정보</td><td>NMS에서 포트 감시</td></tr>
+          </tbody>
+        </table>
+        <img class="photo small" src="assets/images/managed_switch_ports.png" alt="관리형 스위치 포트" />
+      </div>
+    </section>
+
+    <section class="slide" data-title="관리형 점검 절차">
+      <div class="split-title"><div><div class="eyebrow">관리형 점검</div><h2>전체 포트 상태는 장비에서 확인합니다</h2></div><div class="slide-no">04</div></div>
+      <div class="content">
+        <div class="flow">
+          <div class="step"><div class="num">STEP 1</div><b>사전정보 확보</b><span>모델명, 관리 IP, 계정정보, 포트 구성도, 관리 VLAN 확인</span></div>
+          <div class="step"><div class="num">STEP 2</div><b>관리 접속</b><span>Web, SSH, Console, SNMP 중 현장 여건에 맞는 방식 선택</span></div>
+          <div class="step"><div class="num">STEP 3</div><b>포트 상태 확인</b><span>사용 중 포트의 Link, Speed, Duplex, Traffic 확인</span></div>
+          <div class="step"><div class="num">STEP 4</div><b>이상 포트 조치</b><span>100M 저하, Half Duplex, CRC/FCS Error 증가 여부 확인</span></div>
+        </div>
+        <div class="terminal">
+          <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <pre>show interfaces status
+show interfaces counters errors
+show interfaces gi1/0/1</pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="관리형 판정 기준">
+      <div class="split-title"><div><div class="eyebrow">판정 기준</div><h2>관리형 스위치에서 반드시 볼 항목</h2></div><div class="slide-no">05</div></div>
+      <div class="content two">
+        <div class="metrics" style="grid-template-columns:repeat(2,1fr)">
+          <div class="metric"><b>Link</b><span>사용 포트가 Up 상태인지 확인</span></div>
+          <div class="metric"><b>Speed</b><span>장비·케이블 기준에 맞는 속도인지 확인</span></div>
+          <div class="metric"><b>Duplex</b><span>Full Duplex가 정상 기준</span></div>
+          <div class="metric"><b>Error</b><span>CRC/FCS/Input/Output Error 증가 여부 확인</span></div>
+        </div>
+        <div class="card">
+          <p class="key">확인 필요 또는 부적합 예시</p>
+          <ul class="small-list">
+            <li>1Gbps 대상 포트가 100Mbps로 연결</li>
+            <li>Half Duplex로 표시</li>
+            <li>CRC/FCS Error가 계속 증가</li>
+            <li>사용 중 포트가 Link Down</li>
+            <li>업링크 포트의 트래픽·에러 이상</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="비관리형 점검 방법">
+      <div class="split-title"><div><div class="eyebrow">비관리형 점검</div><h2>접속 불가 장비는 간접 확인이 현실적입니다</h2></div><div class="slide-no">06</div></div>
+      <div class="content two">
+        <img class="photo" src="assets/images/unmanaged_switch.png" alt="비관리형 스위치 예시" />
+        <div class="card">
+          <ul>
+            <li>장비 라벨·모델명으로 최대 지원속도 확인</li>
+            <li>전원 LED와 포트별 Link/Act LED 확인</li>
+            <li>운영 중인 케이블은 무리하게 분리하지 않음</li>
+            <li>예비 포트 또는 점검 가능한 포트에 노트북 연결</li>
+            <li>PowerShell로 LinkSpeed와 FullDuplex 확인</li>
+          </ul>
+          <div class="callout warn" style="margin-top:20px">비관리형은 포트별 에러 카운터와 내부 트래픽을 소프트웨어로 직접 볼 수 없습니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="노트북 점검 명령어">
+      <div class="split-title"><div><div class="eyebrow">현장 노트북 점검</div><h2>가장 현실적인 방법: PowerShell 확인</h2></div><div class="slide-no">07</div></div>
+      <div class="content two">
+        <div>
+          <div class="code">Get-NetAdapter | Where-Object {$_.Status -eq "Up"} | Select-Object Name, Status, LinkSpeed, FullDuplex</div>
+          <div class="terminal" style="margin-top:22px">
+            <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <pre>Name      Status  LinkSpeed  FullDuplex
+----      ------  ---------  ----------
+Ethernet  Up      1 Gbps     True</pre>
+          </div>
+        </div>
+        <div class="card">
+          <p class="key">결과 해석</p>
+          <table class="table-compact">
+            <thead><tr><th>항목</th><th>의미</th></tr></thead>
+            <tbody>
+              <tr><td>Status = Up</td><td>링크 연결 정상</td></tr>
+              <tr><td>LinkSpeed = 1 Gbps</td><td>1Gbps로 협상됨</td></tr>
+              <tr><td>LinkSpeed = 100 Mbps</td><td>100Mbps로 협상됨</td></tr>
+              <tr><td>FullDuplex = True</td><td>Full Duplex 동작</td></tr>
+              <tr><td>FullDuplex = False</td><td>Half Duplex 가능성, 확인 필요</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="PowerShell 점검 한계">
+      <div class="split-title"><div><div class="eyebrow">주의사항</div><h2>노트북 명령어로 확인 가능한 범위</h2></div><div class="slide-no">08</div></div>
+      <div class="content two">
+        <img class="photo" src="assets/images/laptop_switch.png" alt="노트북과 스위치 연결" />
+        <div class="card">
+          <table>
+            <thead><tr><th>확인 항목</th><th>가능 여부</th></tr></thead>
+            <tbody>
+              <tr><td>노트북 연결 포트의 링크 상태</td><td>가능</td></tr>
+              <tr><td>노트북 연결 포트의 링크 속도</td><td>가능</td></tr>
+              <tr><td>노트북 연결 포트의 Duplex</td><td>가능</td></tr>
+              <tr><td>스위치 전체 포트 상태</td><td>불가</td></tr>
+              <tr><td>스위치 포트별 에러 카운터</td><td>불가</td></tr>
+              <tr><td>스위치 내부 트래픽 상태</td><td>불가</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="케이블 규격별 속도">
+      <div class="split-title"><div><div class="eyebrow">케이블 규격</div><h2>CAT 규격에 따라 권장 속도가 달라집니다</h2></div><div class="slide-no">09</div></div>
+      <div class="content">
+        <table>
+          <thead><tr><th>규격</th><th>지원 대역폭</th><th>일반적인 지원 속도</th><th>거리 기준</th><th>실무 판단</th></tr></thead>
+          <tbody>
+            <tr><td>CAT5</td><td>100MHz</td><td>10/100Mbps, 조건부 1Gbps</td><td>100m</td><td>구형, 신규 시공 비권장</td></tr>
+            <tr><td>CAT5e</td><td>100MHz</td><td>1Gbps</td><td>100m</td><td>일반 1Gbps 기본 규격</td></tr>
+            <tr><td>CAT6</td><td>250MHz</td><td>1Gbps, 짧은 거리 10Gbps</td><td>100m / 10G 제한</td><td>1Gbps 구성에 충분</td></tr>
+            <tr><td>CAT6A</td><td>500MHz</td><td>10Gbps</td><td>100m</td><td>10Gbps 구간 권장</td></tr>
+            <tr><td>CAT7/8</td><td>600~2,000MHz</td><td>10G~40G</td><td>용도별 상이</td><td>특수·고속 구간 중심</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="slide" data-title="케이블 외관 구분">
+      <div class="split-title"><div><div class="eyebrow">외관 식별</div><h2>정확한 규격은 외피 표기로 확인합니다</h2></div><div class="slide-no">10</div></div>
+      <div class="content two">
+        <img class="photo" src="assets/images/cable_cross_section.png" alt="네트워크 케이블 단면과 차폐 구조" />
+        <div class="card">
+          <p class="key">외피 표기 예시</p>
+          <div class="code" style="font-size:20px">CAT5E UTP 4PAIR 24AWG
+CAT6 UTP 23AWG
+CAT6A F/UTP 23AWG
+CAT7 S/FTP 23AWG</div>
+          <div style="margin-top:18px"><span class="tag">CAT 규격</span><span class="tag">UTP/FTP/STP</span><span class="tag">4PAIR</span><span class="tag">AWG</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="차폐 방식과 외관 차이">
+      <div class="split-title"><div><div class="eyebrow">케이블 차이</div><h2>외관만으로 단정하지 말고 실제 링크를 같이 봅니다</h2></div><div class="slide-no">11</div></div>
+      <div class="content two-even">
+        <div class="card">
+          <p class="key">규격별 외관 경향</p>
+          <table class="table-compact">
+            <thead><tr><th>구분</th><th>CAT5e</th><th>CAT6</th><th>CAT6A</th></tr></thead>
+            <tbody>
+              <tr><td>굵기</td><td>얇은 편</td><td>더 굵은 경우 많음</td><td>굵고 뻣뻣한 경우 많음</td></tr>
+              <tr><td>내부</td><td>꼬임쌍</td><td>separator 있는 제품 많음</td><td>차폐·두꺼운 외피 많음</td></tr>
+              <tr><td>용도</td><td>일반 1Gbps</td><td>1Gbps 이상</td><td>10Gbps 구간</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <p class="key">차폐 방식</p>
+          <ul class="small-list">
+            <li><b>UTP</b>: 별도 차폐막 없는 일반 케이블</li>
+            <li><b>F/UTP 또는 FTP</b>: 전체 포일 차폐</li>
+            <li><b>STP</b>: 차폐 구조 케이블의 포괄 표현</li>
+            <li><b>S/FTP</b>: 전체 차폐와 페어별 차폐 구조</li>
+          </ul>
+          <div class="callout warn" style="margin-top:18px">차폐형은 케이블뿐 아니라 접지, 패치패널, 커넥터 구성도 함께 봐야 합니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="장애 판단 포인트">
+      <div class="split-title"><div><div class="eyebrow">해석 기준</div><h2>1Gbps 대상인데 100Mbps면 케이블부터 의심합니다</h2></div><div class="slide-no">12</div></div>
+      <div class="content two">
+        <div class="card">
+          <table>
+            <thead><tr><th>상황</th><th>가능한 원인</th></tr></thead>
+            <tbody>
+              <tr><td>CAT5e 이상인데 100Mbps</td><td>8가닥 일부 단선, 커넥터 불량, 상대 장비 100M, 포트 설정</td></tr>
+              <tr><td>링크가 자주 끊김</td><td>케이블 꺾임, 접촉 불량, 포트 불량, 노이즈 간섭</td></tr>
+              <tr><td>Half Duplex 표시</td><td>자동협상 실패, 구형 장비, 포트 설정 불일치</td></tr>
+              <tr><td>Error 증가</td><td>케이블 품질, 커넥터, 포트, 상대 장비 문제</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <p class="key">현장 판단 순서</p>
+          <ol style="font-size:23px;line-height:1.65;color:#e8f2fb;margin:0;padding-left:1.2em">
+            <li>케이블 외피 CAT 표기 확인</li>
+            <li>장비 포트 지원 속도 확인</li>
+            <li>PowerShell 또는 관리 화면에서 LinkSpeed 확인</li>
+            <li>이상 시 랜테스터기, 커넥터, 상대 장비 확인</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="점검 기록 예시">
+      <div class="split-title"><div><div class="eyebrow">기록 양식</div><h2>점검표에는 링크 상태 중심으로 기록합니다</h2></div><div class="slide-no">13</div></div>
+      <div class="content">
+        <table>
+          <thead><tr><th>장비명</th><th>포트</th><th>연결대상</th><th>Link</th><th>Speed</th><th>Duplex</th><th>Error</th><th>판정</th><th>비고</th></tr></thead>
+          <tbody>
+            <tr><td>L2-SW-01</td><td>Gi1/0/1</td><td>방화벽</td><td>Up</td><td>1Gbps</td><td>Full</td><td>0</td><td>정상</td><td>업링크</td></tr>
+            <tr><td>L2-SW-01</td><td>Gi1/0/2</td><td>AP</td><td>Up</td><td>1Gbps</td><td>Full</td><td>0</td><td>정상</td><td></td></tr>
+            <tr><td>L2-HUB-01</td><td>대표포트</td><td>노트북</td><td>Up</td><td>1Gbps</td><td>Full</td><td>-</td><td>정상</td><td>PowerShell 확인</td></tr>
+            <tr><td>L2-HUB-03</td><td>3번</td><td>CCTV</td><td>Down</td><td>-</td><td>-</td><td>-</td><td>확인필요</td><td>케이블/상대장비 확인</td></tr>
+          </tbody>
+        </table>
+        <div class="callout" style="margin-top:24px">관리형은 장비 관리 화면·CLI 기준으로, 비관리형은 외관·LED·노트북 링크속도 기준으로 기록합니다.</div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="최종 정리">
+      <div class="split-title"><div><div class="eyebrow">마무리</div><h2>최종 정리</h2></div><div class="slide-no">14</div></div>
+      <div class="content two">
+        <div class="card">
+          <ul>
+            <li>스위치 속도 점검은 인터넷 속도측정보다 <b>링크 동작 상태 확인</b>이 우선입니다.</li>
+            <li>관리형은 Web·SSH·Console·SNMP로 전체 포트 상태를 확인합니다.</li>
+            <li>비관리형은 외관, LED, 노트북 연결로 간접 확인합니다.</li>
+            <li>케이블은 외피 CAT 표기와 실제 LinkSpeed를 함께 확인합니다.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <p class="key">현장 기본 명령어</p>
+          <div class="code" style="font-size:22px">Get-NetAdapter | Where-Object {$_.Status -eq "Up"} | Select-Object Name, Status, LinkSpeed, FullDuplex</div>
+          <div class="callout" style="margin-top:22px">노트북으로 점검할 때 가장 간단하고 현실적인 확인 방법입니다.</div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="dots" id="dots" aria-label="슬라이드 바로가기"></div>
+  <div class="controls">
+    <button id="prevBtn" type="button">이전</button>
+    <span class="counter" id="counter"></span>
+    <button id="nextBtn" type="button">다음</button>
+  </div>
+  <div class="progress" id="progress"></div>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const picker = document.getElementById('slidePicker');
+    const dots = document.getElementById('dots');
+    const counter = document.getElementById('counter');
+    const progress = document.getElementById('progress');
+    let current = 0;
+    slides.forEach((slide, i) => {
+      const title = slide.dataset.title || `슬라이드 ${i+1}`;
+      const opt = document.createElement('option');
+      opt.value = i; opt.textContent = `${i+1}. ${title}`;
+      picker.appendChild(opt);
+      const b = document.createElement('button');
+      b.title = title; b.addEventListener('click', () => go(i));
+      dots.appendChild(b);
+    });
+    function go(i){
+      current = Math.max(0, Math.min(slides.length-1, i));
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === current));
+      [...dots.children].forEach((d, idx) => d.classList.toggle('active', idx === current));
+      picker.value = current;
+      counter.textContent = `${current+1} / ${slides.length}`;
+      progress.style.width = `${((current+1)/slides.length)*100}%`;
+      document.getElementById('prevBtn').disabled = current === 0;
+      document.getElementById('nextBtn').disabled = current === slides.length - 1;
+    }
+    document.getElementById('prevBtn').addEventListener('click', () => go(current - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => go(current + 1));
+    picker.addEventListener('change', e => go(Number(e.target.value)));
+    window.addEventListener('keydown', e => {
+      if(e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') go(current + 1);
+      if(e.key === 'ArrowLeft' || e.key === 'PageUp') go(current - 1);
+      if(e.key === 'Home') go(0);
+      if(e.key === 'End') go(slides.length - 1);
+    });
+    go(0);
+  </script>
+</body>
+</html>
