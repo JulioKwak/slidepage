@@ -97,6 +97,72 @@
     .hero .photo{min-height:520px}
     .footer-note{position:absolute;left:88px;bottom:34px;color:rgba(255,255,255,.46);font-size:14px}
     @media (max-width:1100px){.slide{padding:78px 34px 92px}.two,.two-even,.wide,.hero{grid-template-columns:1fr}.slide h1{font-size:46px}.slide h2{font-size:36px}.photo{min-height:230px}.flow,.metrics,.three{grid-template-columns:1fr 1fr}ul{font-size:19px}.subtitle{font-size:20px}.nav select{max-width:300px}.footer-note{left:34px}.code{font-size:18px}}
+
+    /* 모바일 대응: 작은 화면에서는 한 슬라이드를 세로로 스크롤하며 읽을 수 있게 전환 */
+    @media (max-width:760px){
+      html,body{height:100dvh;overflow:hidden}
+      body:after{background-size:28px 28px;opacity:.24}
+      #deck{height:100dvh;overflow:hidden}
+      .nav{height:54px;padding:0 10px;gap:8px}
+      .nav .brand{font-size:0;gap:0}
+      .brand-mark{width:26px;height:26px;flex:0 0 auto}
+      .nav select{flex:1;max-width:none;min-width:0;font-size:14px;padding:8px 32px 8px 10px;border-radius:10px}
+      .slide{display:none;inset:54px 0 76px 0;padding:18px 16px 24px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;transform:none;transition:opacity .18s ease;grid-template-rows:auto auto;gap:16px}
+      .slide.active{display:block;opacity:1;transform:none;pointer-events:auto}
+      .slide h1{font-size:31px;line-height:1.14;letter-spacing:-.055em}
+      .slide h2{font-size:25px;line-height:1.18;letter-spacing:-.05em}
+      .eyebrow{font-size:13px;margin-bottom:8px;gap:7px}
+      .eyebrow:before{width:8px;height:8px}
+      .subtitle{font-size:16px;line-height:1.55;margin-top:14px}
+      .content,.two,.two-even,.three,.wide,.hero,.compare,.flow,.metrics{display:block;min-height:auto}
+      .content>*+*,.hero>*+*,.compare>*+*,.flow>*+*,.metrics>*+*{margin-top:14px}
+      .card,.step,.metric{border-radius:18px;padding:17px;box-shadow:0 10px 30px rgba(0,0,0,.24)}
+      .compare .card{min-height:auto}
+      .photo,.photo.small,.hero .photo{min-height:0;height:auto;max-height:210px;object-fit:cover;border-radius:18px;display:block}
+      .caption{text-align:left;font-size:12px}
+      .key{font-size:20px;margin-bottom:10px}
+      .desc{font-size:15px;line-height:1.5}
+      ul,ol{font-size:16px!important;line-height:1.55!important;padding-left:1.1em!important}
+      .small-list{font-size:15px!important}
+      .tag{font-size:12px;padding:6px 9px;margin:3px 4px 3px 0}
+      .callout{font-size:16px;line-height:1.45;padding:14px 15px;border-left-width:4px;border-radius:14px}
+      .code{font-size:13px!important;line-height:1.45;padding:14px;border-radius:14px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+      .terminal{border-radius:16px}
+      .terminal .bar{height:30px;padding:0 12px}
+      .dot{width:9px;height:9px}
+      .terminal pre{font-size:13px;line-height:1.45;padding:14px;overflow-x:auto}
+      .pill-title{font-size:20px;margin-bottom:10px}
+      .icon{width:34px;height:34px;border-radius:10px;font-size:17px}
+      .step{min-height:auto}
+      .step .num{font-size:13px;margin-bottom:7px}
+      .step b{font-size:18px;margin-bottom:6px}
+      .step span,.metric span{font-size:14px;line-height:1.45}
+      .metric{min-height:auto}
+      .metric b{font-size:21px;margin-bottom:6px}
+      table{display:block;width:100%;font-size:13px;line-height:1.35;border-radius:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap}
+      th,td{padding:10px 11px;white-space:normal;min-width:96px}
+      .table-compact{font-size:12.5px}
+      .split-title{display:block;margin-bottom:14px}
+      .slide-no{font-size:14px;margin-top:6px;text-align:right}
+      .big-number{display:none}
+      .footer-note{position:static;margin-top:12px;font-size:12px}
+      .dots{display:none}
+      .controls{left:0;right:0;bottom:0;height:72px;padding:10px 12px;background:rgba(5,14,23,.90);border-top:1px solid rgba(255,255,255,.10);justify-content:space-between;gap:8px;backdrop-filter:blur(14px)}
+      .controls button{flex:1;min-height:48px;border-radius:14px;font-size:16px;padding:10px 12px;background:rgba(255,255,255,.13)}
+      .counter{min-width:58px;text-align:center;font-size:13px;padding:0 4px}
+      .progress{bottom:72px;height:4px}
+    }
+    @media (max-width:420px){
+      .slide{padding:16px 13px 22px}
+      .slide h1{font-size:27px}
+      .slide h2{font-size:23px}
+      .subtitle{font-size:15px}
+      .photo,.photo.small,.hero .photo{max-height:170px}
+      .card,.step,.metric{padding:15px}
+      .code,.terminal pre{font-size:12px!important}
+      table{font-size:12px}
+      th,td{min-width:88px;padding:9px}
+    }
     @media print{html,body{overflow:visible;background:white;color:black}.nav,.controls,.dots,.progress{display:none}.slide{position:relative;opacity:1;transform:none;page-break-after:always;height:100vh;color:white}.slide.active{opacity:1}}
   </style>
 </head>
@@ -440,6 +506,21 @@ CAT7 S/FTP 23AWG</div>
       if(e.key === 'Home') go(0);
       if(e.key === 'End') go(slides.length - 1);
     });
+    let touchStartX = 0, touchStartY = 0;
+    window.addEventListener('touchstart', e => {
+      if(!e.changedTouches || !e.changedTouches.length) return;
+      touchStartX = e.changedTouches[0].clientX;
+      touchStartY = e.changedTouches[0].clientY;
+    }, {passive:true});
+    window.addEventListener('touchend', e => {
+      if(!e.changedTouches || !e.changedTouches.length) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      if(Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.35){
+        if(dx < 0) go(current + 1);
+        else go(current - 1);
+      }
+    }, {passive:true});
     go(0);
   </script>
 </body>
