@@ -98,6 +98,16 @@
     .footer-note{position:absolute;left:88px;bottom:34px;color:rgba(255,255,255,.46);font-size:14px}
     @media (max-width:1100px){.slide{padding:78px 34px 92px}.two,.two-even,.wide,.hero{grid-template-columns:1fr}.slide h1{font-size:46px}.slide h2{font-size:36px}.photo{min-height:230px}.flow,.metrics,.three{grid-template-columns:1fr 1fr}ul{font-size:19px}.subtitle{font-size:20px}.nav select{max-width:300px}.footer-note{left:34px}.code{font-size:18px}}
 
+
+    .mini-diagram{display:grid;gap:14px;margin-top:18px}
+    .diagram-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .network-node{border:1px solid var(--line);background:rgba(255,255,255,.08);border-radius:16px;padding:12px 14px;font-weight:800;font-size:16px;min-width:110px;text-align:center}
+    .network-node.admin{border-color:rgba(84,225,167,.45);background:rgba(84,225,167,.13)}
+    .network-node.cctv{border-color:rgba(53,194,255,.45);background:rgba(53,194,255,.13)}
+    .network-node.guest{border-color:rgba(255,209,102,.45);background:rgba(255,209,102,.13)}
+    .network-node.server{border-color:rgba(179,136,255,.45);background:rgba(179,136,255,.13)}
+    .arrow{color:var(--muted);font-weight:900;font-size:22px}
+
     /* 모바일 대응: 작은 화면에서는 한 슬라이드를 세로로 스크롤하며 읽을 수 있게 전환 */
     @media (max-width:760px){
       html,body{height:100dvh;overflow:hidden}
@@ -153,6 +163,11 @@
       .progress{bottom:72px;height:4px}
     }
     @media (max-width:420px){
+
+      .diagram-row{display:grid;grid-template-columns:1fr;gap:8px}
+      .network-node{font-size:14px;min-width:0;padding:10px 12px}
+      .arrow{display:none}
+
       .slide{padding:16px 13px 22px}
       .slide h1{font-size:27px}
       .slide h2{font-size:23px}
@@ -445,8 +460,112 @@ CAT7 S/FTP 23AWG</div>
       </div>
     </section>
 
+
+    <section class="slide" data-title="VLAN 이해">
+      <div class="split-title"><div><div class="eyebrow">VLAN 기초</div><h2>VLAN은 하나의 스위치를 여러 개의 가상망처럼 나누는 기능입니다</h2></div><div class="slide-no">14</div></div>
+      <div class="content two">
+        <div class="card">
+          <p class="key">초보자용 설명</p>
+          <ul>
+            <li><b>VLAN</b>은 Virtual LAN의 약자입니다.</li>
+            <li>물리적으로는 같은 스위치에 연결되어 있어도, 논리적으로는 서로 다른 네트워크처럼 분리합니다.</li>
+            <li>예를 들어 업무망, CCTV망, 방문자망, 서버망을 같은 장비에서 분리해서 운영할 수 있습니다.</li>
+            <li>분리된 VLAN 간 통신은 라우터, L3 스위치, 방화벽 정책을 통해 허용할 때만 가능합니다.</li>
+          </ul>
+          <div class="mini-diagram">
+            <div class="diagram-row"><div class="network-node">물리 스위치 1대</div><span class="arrow">→</span><div class="network-node admin">업무망 VLAN 10</div><div class="network-node cctv">CCTV VLAN 20</div></div>
+            <div class="diagram-row"><div class="network-node guest">방문자 VLAN 30</div><div class="network-node server">서버 VLAN 40</div></div>
+          </div>
+        </div>
+        <div>
+          <img class="photo" src="assets/images/vlan_reference.png" alt="VLAN 설명 참고 이미지" />
+          <div class="caption">VLAN은 물리 장비 1대를 논리적으로 여러 망처럼 분리하는 개념입니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="VLAN 보안 점검">
+      <div class="split-title"><div><div class="eyebrow">VLAN 보안</div><h2>VLAN 점검은 “분리되어야 할 망이 실제로 분리되어 있는지” 확인합니다</h2></div><div class="slide-no">15</div></div>
+      <div class="content two-even">
+        <div class="card">
+          <p class="key">기본 확인 항목</p>
+          <table class="table-compact">
+            <thead><tr><th>점검 항목</th><th>확인 내용</th></tr></thead>
+            <tbody>
+              <tr><td>VLAN 목록</td><td>VLAN ID, 명칭, 용도 확인</td></tr>
+              <tr><td>포트 배정</td><td>각 포트가 어느 VLAN에 속하는지 확인</td></tr>
+              <tr><td>Access/Trunk</td><td>단말 포트는 Access, 스위치 간 연결은 Trunk 여부 확인</td></tr>
+              <tr><td>미사용 포트</td><td>Disable 또는 별도 격리 VLAN 처리 여부 확인</td></tr>
+              <tr><td>관리 VLAN</td><td>장비 관리용 VLAN이 일반 사용자망과 분리되어 있는지 확인</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <p class="key">보안상 특히 중요한 사항</p>
+          <ul class="small-list">
+            <li>방문자망이 업무망·서버망으로 접근되지 않아야 합니다.</li>
+            <li>CCTV망, 출입통제망, 서버망은 필요 목적 외 통신을 제한해야 합니다.</li>
+            <li>Trunk 포트는 허용 VLAN을 필요한 것만 제한하는 것이 좋습니다.</li>
+            <li>기본 VLAN 1에 중요 장비를 그대로 두는 구성은 피하는 것이 좋습니다.</li>
+            <li>VLAN 간 통신 허용 여부는 방화벽 또는 L3 장비 정책과 함께 확인해야 합니다.</li>
+          </ul>
+          <div class="callout warn" style="margin-top:18px">VLAN은 망을 나누는 기능이지, 단독으로 완전한 보안장비가 되는 것은 아닙니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="VPN 이해">
+      <div class="split-title"><div><div class="eyebrow">VPN 기초</div><h2>VPN은 외부에서 내부망으로 안전하게 들어오는 암호화 통로입니다</h2></div><div class="slide-no">16</div></div>
+      <div class="content two">
+        <div>
+          <img class="photo" src="assets/images/vpn_reference.png" alt="VPN 보안 연결 참고 이미지" />
+          <div class="caption">VPN은 외부 사용자와 내부 시스템 사이에 암호화된 통신 터널을 만드는 개념입니다.</div>
+        </div>
+        <div class="card">
+          <p class="key">초보자용 설명</p>
+          <ul>
+            <li><b>VPN</b>은 Virtual Private Network의 약자입니다.</li>
+            <li>인터넷을 지나가지만, 통신 내용은 암호화된 터널 안에서 이동합니다.</li>
+            <li>외근자, 재택근무자, 지사, 협력업체가 내부 업무망에 접속할 때 사용합니다.</li>
+            <li>대표적으로 SSL VPN, IPsec VPN, WireGuard 방식 등이 있습니다.</li>
+          </ul>
+          <div class="callout" style="margin-top:20px">비유하면, 공용도로를 지나가지만 전용 방탄차 안에서 이동하는 것과 비슷합니다.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="VPN 보안 점검">
+      <div class="split-title"><div><div class="eyebrow">VPN 보안</div><h2>VPN 점검은 “누가, 어떤 방식으로, 어디까지 접속하는지” 확인합니다</h2></div><div class="slide-no">17</div></div>
+      <div class="content two-even">
+        <div class="card">
+          <p class="key">접속·계정 점검</p>
+          <table class="table-compact">
+            <thead><tr><th>점검 항목</th><th>확인 내용</th></tr></thead>
+            <tbody>
+              <tr><td>사용자 계정</td><td>퇴사자, 미사용 계정, 공용 계정 존재 여부</td></tr>
+              <tr><td>인증 방식</td><td>비밀번호만 사용하는지, MFA 적용 여부</td></tr>
+              <tr><td>접속 이력</td><td>최근 접속자, 실패 로그인, 해외·이상 접속 여부</td></tr>
+              <tr><td>권한 범위</td><td>접속 후 접근 가능한 내부 시스템 범위</td></tr>
+              <tr><td>외부 공개 상태</td><td>VPN 장비가 불필요하게 넓게 노출되어 있지 않은지</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <p class="key">장비·정책 점검</p>
+          <ul class="small-list">
+            <li>VPN 장비 펌웨어와 보안 패치가 최신인지 확인합니다.</li>
+            <li>암호화 방식이 취약한 구형 방식으로 설정되어 있지 않은지 확인합니다.</li>
+            <li>Split Tunnel 허용 여부와 내부망 접근 범위를 확인합니다.</li>
+            <li>인증서 만료일, 로그 보관, 세션 타임아웃 설정을 확인합니다.</li>
+            <li>관리자 페이지는 일반 인터넷에 그대로 노출되지 않도록 제한하는 것이 좋습니다.</li>
+          </ul>
+          <div class="callout bad" style="margin-top:18px">VPN 계정 하나가 탈취되면 내부망 진입로가 될 수 있으므로 계정 관리가 핵심입니다.</div>
+        </div>
+      </div>
+    </section>
+
     <section class="slide" data-title="최종 정리">
-      <div class="split-title"><div><div class="eyebrow">마무리</div><h2>최종 정리</h2></div><div class="slide-no">14</div></div>
+      <div class="split-title"><div><div class="eyebrow">마무리</div><h2>최종 정리</h2></div><div class="slide-no">18</div></div>
       <div class="content two">
         <div class="card">
           <ul>
